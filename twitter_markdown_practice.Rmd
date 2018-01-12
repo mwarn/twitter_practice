@@ -1,0 +1,93 @@
+---
+title: "twitter markdown practice"
+author: "Michael Warner"
+date: "January 10, 2018"
+output: html_document
+---
+
+It's been awhile since I've done anything in R and so to get back in the habit I started playing around a bit.  I already had twitter api access from a few years back so decided to call up some tweets, run some analysis, create some visualizations, all while learning and becoming more familiar with creating rmarkdown documents.
+
+To begin I needed to pull up some of the required libaries.
+
+```{r}
+library(twitteR)
+library(tm)
+library(wordcloud)
+```
+
+Then I needed to setup authentication with the twitter api.
+
+```{r, echo = FALSE}
+consumer_key <- "MwzdnvR6pV6bAbOPJ5iVMrUxx"
+consumer_secret <- "rkBB6ShG8azc9qzUtDmboRZMDlnuZdNaElCHFKFS583quyX4tC"
+access_token <- "1568356658-hF0Y3ts1OGEyPssL456qwpMvB9A4kEX6KrCQ1Od"
+access_secret <- "3ZmwbFUlYYmCm6b0byP0OX1fEEFhxqi2V2EIOyOnzPC6U"
+```
+
+
+```{r}
+setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
+```
+
+So I called for some user timeline info from a few different users through the twitter api.
+
+```{r}
+tweets <- userTimeline("DailyZen", n = 3200)
+tweets_text <- sapply(tweets, function(x) x$getText())
+zen_corpus <- Corpus(VectorSource(tweets_text))
+```
+
+```{r}
+zen_clean <- tm_map(zen_corpus, removePunctuation)
+zen_clean2 <- tm_map(zen_clean, content_transformer(tolower))
+zen_clean3 <- tm_map(zen_clean2, removeWords, stopwords("english"))
+zen_clean4 <- tm_map(zen_clean3, removeNumbers)
+zen_clean5 <- tm_map(zen_clean4, stripWhitespace)
+```
+
+```{r}
+wordcloud(zen_clean5, random.order = F, scale = c(2, 0.25), colors = rainbow(50))
+```
+Of course a timeline full of buddhist, zen monk quotes talks about life and things alot.  And interestingly the words *can* and *will* come up alot from the tweets pulled.  So *can* I do something (like meditate, study, read, etc., yeah), but *will* I do something now that remains to be seen.
+```{r}
+warren <- userTimeline("elizabethwarren", n = 3200)
+```
+
+```{r echo = FALSE}
+warren_tweets <- sapply(warren, function(x) x$getText())
+warren_corpus <- Corpus(VectorSource(warren_tweets))
+```
+
+```{r echo = FALSE}
+warren_clean <- tm_map(warren_corpus, removePunctuation)
+warren_clean2 <- tm_map(warren_clean, content_transformer(tolower))
+warren_clean3 <- tm_map(warren_clean2, removeWords, stopwords("english"))
+warren_clean4 <- tm_map(warren_clean3, removeNumbers)
+warren_clean5 <- tm_map(warren_clean4, stripWhitespace)
+```
+
+```{r echo = FALSE}
+wordcloud(warren_clean5, random.order = F, scale = c(2, 0.25), colors = rainbow(50))
+```
+It is somewhat interesting in the few tweets that a pulled from Senator Elizabeth Warren's timeline is talks about herself alot presumably but of course she could be referencing other Elizabeth's and/or Warren's.
+```{r}
+paul <- userTimeline("randpaul", n = 3200)
+```
+
+```{r echo = FALSE}
+paul_tweets <- sapply(paul, function(x) x$getText())
+paul_corpus <- Corpus(VectorSource(paul_tweets))
+```
+
+```{r echo = FALSE}
+paul_clean <- tm_map(paul_corpus, removePunctuation)
+paul_clean2 <- tm_map(paul_clean, content_transformer(tolower))
+paul_clean3 <- tm_map(paul_clean2, removeWords, stopwords("english"))
+paul_clean4 <- tm_map(paul_clean3,  removeNumbers)
+paul_clean5 <- tm_map(paul_clean4, stripWhitespace)
+```
+
+```{r echo = FALSE}
+wordcloud(paul_clean5, random.order = F, scale = c(2, 0.25), colors = rainbow(50))
+```
+Senator Paul Rand on the other hand referneces government, bill's, #airingofgrievances, and some current events.  Also he seemed to reference the Seinfeld show holiday Festivus.  Which should always be seen as a plus because it's a holiday for the rest of us!
