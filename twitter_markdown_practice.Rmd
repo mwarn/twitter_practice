@@ -69,7 +69,7 @@ warren_clean5 <- tm_map(warren_clean4, stripWhitespace)
 ```{r echo = FALSE}
 wordcloud(warren_clean5, random.order = F, scale = c(2, 0.25), colors = rainbow(50))
 ```
-It is somewhat interesting in the few tweets that a pulled from Senator Elizabeth Warren's timeline is talks about herself alot presumably but of course she could be referencing other Elizabeth's and/or Warren's.
+It is somewhat interesting in the few tweets that a pulled from Senator Elizabeth Warren's timeline she talks about herself alot presumably but of course she could be referencing other Elizabeth's and/or Warren's.
 ```{r}
 paul <- userTimeline("randpaul", n = 3200)
 ```
