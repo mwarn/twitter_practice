@@ -18,10 +18,10 @@ library(wordcloud)
 Then I needed to setup authentication with the twitter api.
 
 ```{r, echo = FALSE}
-consumer_key <- "MwzdnvR6pV6bAbOPJ5iVMrUxx"
-consumer_secret <- "rkBB6ShG8azc9qzUtDmboRZMDlnuZdNaElCHFKFS583quyX4tC"
-access_token <- "1568356658-hF0Y3ts1OGEyPssL456qwpMvB9A4kEX6KrCQ1Od"
-access_secret <- "3ZmwbFUlYYmCm6b0byP0OX1fEEFhxqi2V2EIOyOnzPC6U"
+consumer_key <- "key"
+consumer_secret <- "secret"
+access_token <- "token"
+access_secret <- "secret"
 ```
 
 
